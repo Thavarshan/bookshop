@@ -1,2 +1,3 @@
-# city-bookshop
+# Bookshop
+
 Book purchase automation process.
