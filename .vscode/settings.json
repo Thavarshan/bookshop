@@ -1,6 +1,0 @@
-{
-    "java.project.sourcePaths": [
-        "src/db",
-        "src/main/java/db"
-    ]
-}

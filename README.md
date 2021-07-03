@@ -1,3 +1,3 @@
 # Bookshop
 
-Book purchase automation process.
+Book shop cashier application.
