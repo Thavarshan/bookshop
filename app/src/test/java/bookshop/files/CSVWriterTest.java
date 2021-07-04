@@ -22,7 +22,7 @@ public class CSVWriterTest {
     }
 
     @Test
-    public void givenQuoteContainingData_whenEscapeSpecialCharacters_stringReturnedFormatted() {
+    public void stringReturnedFormattedWhenEscapeSpecialCharactersQuoteContainingData() {
         CSVWriter writer = new CSVWriter();
         String content = "She said \"Hello\"";
         String escapedData = writer.escapeSpecialCharacters(content);
