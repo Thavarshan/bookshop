@@ -1,6 +1,9 @@
 package bookshop;
 
-import bookshop.auth.Authenticator;
+import java.util.HashMap;
+import java.util.ArrayList;
+import bookshop.db.User;
+import bookshop.files.CSVReader;
 
 /**
  * Main Application Class.
@@ -16,28 +19,29 @@ public class Application {
         return "Hello World!";
     }
 
-    public String authenticate() {
-        Authenticator auth = new Authenticator();
-
-        auth.setUser("tjthavarshan@gmail.com", "password");
-
-        String[] credentials = { "tjthavarshan@gmail.com", "password" };
-
-        if (auth.attempt(credentials)) {
-            return "User was found";
-        }
-
-        return "User was not found";
-    }
-
     /**
      * Execute the main application.
      *
      * @return void
      */
     public static void main(String[] args) {
-        Application app = new Application();
+        CSVReader reader = new CSVReader();
+        ArrayList<String[]> data = new ArrayList<String[]>();
+        HashMap<String, User> users = new HashMap<String, User>();
 
-        System.out.println(app.authenticate());
+        data = reader.read("data/users.csv", data);
+
+        for (String[] line : data) {
+            User user = new User();
+
+            user.email = line[0];
+            user.password = line[1];
+            user.role = line[2];
+
+            users.put(line[0], user);
+        }
+
+        System.out.println(users);
+        System.out.println(users.get("tjthavarshan@gmail.com").email);
     }
 }
