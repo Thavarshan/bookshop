@@ -1,9 +1,6 @@
 package bookshop.auth;
 
 import java.util.HashMap;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class Authenticator {
 

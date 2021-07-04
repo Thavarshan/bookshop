@@ -47,29 +47,41 @@ public class AuthenticatorTest {
         }
     }
 
-    @Ignore
     @Test
     public void verifyHashedPasswordWithOriginalValue() {
+        Hasher.generateSalt();
         Authenticator auth = new Authenticator();
-
-        String hashValue = "40aa70f6740f8daffcec48a971ee7521";
         String originalValue = "javaMonster123";
 
-        assertTrue(auth.verifyPassword(hashValue, originalValue));
-        assertFalse(auth.verifyPassword(originalValue, originalValue));
+        try {
+            String hashedValue = Hasher.make(originalValue);
+
+            assertTrue(auth.verifyPassword(hashedValue, originalValue));
+            assertFalse(auth.verifyPassword(originalValue, originalValue));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 
     @Ignore
     @Test
     public void attemptToAuthenticateUser() {
+        Hasher.generateSalt();
         Authenticator auth = new Authenticator();
+        String originalValue = "javaMonster123";
 
-        auth.setUser("james.silverman@monster.com", "monsterRules123");
+        auth.setUser("james.silverman@monster.com", originalValue);
 
-        String[] validCredentials = { "james.silverman@monster.com", "monsterRules123" };
-        String[] invalidCredentials = { "james.gormon@gumpert.com", "invalidFurrier" };
+        try {
+            String hashedValue = Hasher.make(originalValue);
 
-        assertTrue(auth.attempt(validCredentials));
-        assertFalse(auth.attempt(invalidCredentials));
+            String[] validCredentials = { "james.silverman@monster.com", hashedValue };
+            String[] invalidCredentials = { "james.gormon@gumpert.com", "invalidFurrier" };
+
+            assertTrue(auth.attempt(validCredentials));
+            assertFalse(auth.attempt(invalidCredentials));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 }
