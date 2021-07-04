@@ -67,7 +67,11 @@ public class Authenticator {
      * @return boolean
      */
     public boolean verifyPassword(String hashValue, String value) {
-        return hashValue == value;
+        try {
+            return Hasher.check(value, hashValue);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
