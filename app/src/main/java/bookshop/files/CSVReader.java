@@ -24,12 +24,11 @@ public class CSVReader extends Reader {
     /**
      * Read the contents of the given file and transfer it on to the given list.
      *
-     * @param String              filePath
-     * @param ArrayList<String[]> data
+     * @param String filePath
      *
      * @return ArrayList<String[]>
      */
-    public ArrayList<String[]> read(String filePath, ArrayList<String[]> data) {
+    public ArrayList<String[]> read(String filePath) {
         try {
             String line = "";
             fileReader = new BufferedReader(new FileReader(convertToAbsolutePath(filePath)));

@@ -1,37 +1,69 @@
 package bookshop.auth;
 
-import org.junit.Ignore;
 import org.junit.Test;
+import bookshop.db.Table;
+import bookshop.db.models.User;
+
 import static org.junit.Assert.*;
-import java.util.HashMap;
-import com.google.common.collect.Maps;
 
 public class AuthenticatorTest {
 
+    /**
+     * Fake user details for testing.
+     *
+     * @var String[]
+     */
+    String[] data = { "tjthavarshan@gmail.com",
+            "1000:ce0600b75416fd09979a3485ed08305ebef7b61254d18043:f3862c97b59deef120e7fc8df5fb833557b46c563bf85355",
+            "admin" };
+
     @Test
-    public void setAndGetUserDetails() {
+    public void canSetAuthenticatableUsersFromUsersTable() {
+        Table users = new Table();
+        users.setName("users");
+        users.addData(this.data);
+
         Authenticator auth = new Authenticator();
+        auth.setUsers(users);
 
-        auth.setUser("james.silverman@monster.com", "monsterRules123");
-        auth.setUser("geoff.goblush@atami.com", "superDinoMenace");
-
-        HashMap<String, String> testUsers = new HashMap<String, String>();
-        testUsers.put("james.silverman@monster.com", "monsterRules123");
-        testUsers.put("geoff.goblush@atami.com", "superDinoMenace");
-
-        assertTrue(Maps.difference(auth.getUsers(), testUsers).areEqual());
-        assertTrue(auth.getUsers().containsKey("james.silverman@monster.com"));
-        assertTrue(auth.getUsers().containsKey("geoff.goblush@atami.com"));
+        assertTrue(auth.getUsers().containsKey("tjthavarshan@gmail.com"));
     }
 
     @Test
-    public void checkIfEmailExists() {
+    public void canSetUsersIndividually() {
+        User user = new User();
+        user.setAttributes(this.data);
+
         Authenticator auth = new Authenticator();
+        auth.setUser(user.email(), user);
 
-        auth.setUser("james.silverman@monster.com", "monsterRules123");
+        assertTrue(auth.getUsers().containsKey("tjthavarshan@gmail.com"));
+    }
 
-        assertTrue(auth.emailExists("james.silverman@monster.com"));
-        assertFalse(auth.emailExists("james.mongor@silverback.com"));
+    @Test
+    public void canDetermineIfGivenEmailExists() {
+        User user = new User();
+        user.setAttributes(this.data);
+
+        Authenticator auth = new Authenticator();
+        auth.setUser(user.email(), user);
+
+        assertTrue(auth.emailExists("tjthavarshan@gmail.com"));
+    }
+
+    @Test
+    public void canGetPasswordOfGivenUserEmail() {
+        User user = new User();
+        user.setAttributes(this.data);
+
+        Authenticator auth = new Authenticator();
+        auth.setUser(user.email(), user);
+
+        try {
+            assertEquals(user.password(), auth.getPassword(user.email()));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
@@ -63,25 +95,16 @@ public class AuthenticatorTest {
         }
     }
 
-    @Ignore
     @Test
-    public void attemptToAuthenticateUser() {
-        Hasher.generateSalt();
+    public void canAttemptToAuthenticateUser() {
+        User user = new User();
+        user.setAttributes(this.data);
+
         Authenticator auth = new Authenticator();
-        String originalValue = "javaMonster123";
+        auth.setUser(user.email(), user);
 
-        auth.setUser("james.silverman@monster.com", originalValue);
+        String[] credentials = { "tjthavarshan@gmail.com", "password123" };
 
-        try {
-            String hashedValue = Hasher.make(originalValue);
-
-            String[] validCredentials = { "james.silverman@monster.com", hashedValue };
-            String[] invalidCredentials = { "james.gormon@gumpert.com", "invalidFurrier" };
-
-            assertTrue(auth.attempt(validCredentials));
-            assertFalse(auth.attempt(invalidCredentials));
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+        assertTrue(auth.attempt(credentials));
     }
 }

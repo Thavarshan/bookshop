@@ -1,22 +1,61 @@
 package bookshop;
 
-import java.util.HashMap;
-import java.util.ArrayList;
-import bookshop.db.User;
-import bookshop.files.CSVReader;
+import bookshop.auth.Authenticator;
+import bookshop.db.Manager;
 
 /**
- * Main Application Class.
+ * The main application class.
  */
 public class Application {
 
     /**
-     * Output a greeting message.
+     * The application database manager instance.
      *
-     * @return String
+     * @var Manager
      */
-    public String getGreeting() {
-        return "Hello World!";
+    Manager db = new Manager();
+
+    /**
+     * The authenticator instance.
+     *
+     * @var Authenticator
+     */
+    Authenticator auth = new Authenticator();
+
+    /**
+     * Start the application.
+     *
+     * @return boolean
+     */
+    public boolean start() {
+        try {
+            build();
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Construct the application functinoality.
+     *
+     * @return Application
+     */
+    public Application build() {
+        this.db.loadData();
+
+        this.auth.setUsers(this.db.getTable("users"));
+
+        String[] credentials = { "tjthavarshan@gmail.com", "password123" };
+
+        if (this.auth.attempt(credentials)) {
+            System.out.println("You are logged in.");
+        } else {
+            System.out.println("Login failed.");
+        }
+
+        return this;
     }
 
     /**
@@ -25,23 +64,8 @@ public class Application {
      * @return void
      */
     public static void main(String[] args) {
-        CSVReader reader = new CSVReader();
-        ArrayList<String[]> data = new ArrayList<String[]>();
-        HashMap<String, User> users = new HashMap<String, User>();
+        Application app = new Application();
 
-        data = reader.read("data/users.csv", data);
-
-        for (String[] line : data) {
-            User user = new User();
-
-            user.email = line[0];
-            user.password = line[1];
-            user.role = line[2];
-
-            users.put(line[0], user);
-        }
-
-        System.out.println(users);
-        System.out.println(users.get("tjthavarshan@gmail.com").email);
+        app.start();
     }
 }

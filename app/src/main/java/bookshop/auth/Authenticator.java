@@ -1,21 +1,37 @@
 package bookshop.auth;
 
 import java.util.HashMap;
+import bookshop.db.Table;
+import bookshop.db.models.User;
 
 public class Authenticator {
 
     /**
      * The list of allowable email and associative passwords.
      */
-    HashMap<String, String> users = new HashMap<String, String>();
+    HashMap<String, User> users = new HashMap<String, User>();
+
+    /**
+     * Set the list of authenticatable users.
+     *
+     * @return void
+     */
+    public void setUsers(Table users) {
+        for (String[] row : users.getData()) {
+            User user = new User();
+            user.setAttributes(row);
+
+            setUser(user.email(), user);
+        }
+    }
 
     /**
      * Set list of allowable user credentials.
      *
      * @return void
      */
-    public void setUser(String email, String password) {
-        users.put(email, password);
+    public void setUser(String email, User user) {
+        this.users.put(email, user);
     }
 
     /**
@@ -23,8 +39,8 @@ public class Authenticator {
      *
      * @return HashMap
      */
-    public HashMap getUsers() {
-        return users;
+    public HashMap<String, User> getUsers() {
+        return this.users;
     }
 
     /**
@@ -35,7 +51,7 @@ public class Authenticator {
      * @return boolean
      */
     public boolean emailExists(String email) {
-        return users.containsKey(email);
+        return this.users.containsKey(email);
     }
 
     /**
@@ -52,7 +68,7 @@ public class Authenticator {
             throw new EmailNotFoundException("Email was not found.");
         }
 
-        return users.get(email);
+        return this.users.get(email).password();
     }
 
     /**
