@@ -1,7 +1,10 @@
 package bookshop.files;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,15 +21,32 @@ public class CSVWriter extends Writer {
      * @return void
      */
     public void write(String filePath, List<String[]> dataLines) {
-        File csvOutputFile = new File(filePath);
+        PrintWriter printWriter = createFileWriter(filePath);
 
-        try (PrintWriter printWriter = new PrintWriter(csvOutputFile)) {
-            dataLines.stream().map(data -> convertToCSV(data)).forEach(printWriter::println);
+        dataLines.stream().map(data -> convertToCSV(data)).forEach(printWriter::println);
 
-            printWriter.close();
-        } catch (FileNotFoundException e) {
-            //
+        printWriter.close();
+    }
+
+    /**
+     * Create the file writer instance.
+     *
+     * @param String filePath
+     *
+     * @return PrintWriter
+     */
+    protected PrintWriter createFileWriter(String filePath) {
+        PrintWriter printWriter = null;
+
+        try {
+            FileWriter fileWriter = new FileWriter(filePath, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            printWriter = new PrintWriter(bufferedWriter);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
+
+        return printWriter;
     }
 
     /**
@@ -51,8 +71,7 @@ public class CSVWriter extends Writer {
         String escapedData = content.replaceAll("\\R", " ");
 
         if (content.contains(",") || content.contains("\"") || content.contains("'")) {
-            content = content.replace("\"", "\"\"");
-            escapedData = "\"" + content + "\"";
+            escapedData = "\"" + content.replace("\"", "\"\"") + "\"";
         }
 
         return escapedData;

@@ -1,7 +1,14 @@
 package bookshop;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bookshop.auth.Authenticator;
+import bookshop.auth.Hasher;
 import bookshop.db.Manager;
+import bookshop.files.CSVWriter;
+import bookshop.files.Writer;
+import bookshop.ui.GUI;
 
 /**
  * The main application class.
@@ -21,6 +28,13 @@ public class Application {
      * @var Authenticator
      */
     Authenticator auth = new Authenticator();
+
+    /**
+     * The application GUI instance.
+     *
+     * @var GUI
+     */
+    GUI gui = new GUI();
 
     /**
      * Start the application.
@@ -43,10 +57,27 @@ public class Application {
      * @return Application
      */
     public Application build() {
+        Hasher.generateSalt();
+
         this.db.loadData();
 
         this.auth.setUsers(this.db.getTable("users"));
 
+        // gui.build();
+
+        return this;
+    }
+
+    public void writeToFile() {
+        this.db.insert(new String[] { "loyd@may.com", "Boom", "staff" });
+    }
+
+    /**
+     * Authenticate the current user.
+     *
+     * @return void
+     */
+    public void authenticate() {
         String[] credentials = { "tjthavarshan@gmail.com", "password123" };
 
         if (this.auth.attempt(credentials)) {
@@ -54,8 +85,6 @@ public class Application {
         } else {
             System.out.println("Login failed.");
         }
-
-        return this;
     }
 
     /**
@@ -67,5 +96,9 @@ public class Application {
         Application app = new Application();
 
         app.start();
+
+        app.authenticate();
+
+        app.writeToFile();
     }
 }

@@ -1,7 +1,11 @@
 package bookshop.db;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import bookshop.files.CSVReader;
+import bookshop.files.CSVWriter;
 
 public class Manager {
 
@@ -11,6 +15,13 @@ public class Manager {
      * @var CSVReader
      */
     CSVReader reader = new CSVReader();
+
+    /**
+     * The database writer instance.
+     *
+     * @var CSVWriter
+     */
+    CSVWriter writer = new CSVWriter();
 
     /**
      * Location where all data files are stored.
@@ -69,5 +80,17 @@ public class Manager {
      */
     public Table getTable(String name) {
         return this.data.get(name);
+    }
+
+    public void insert(String[] row) {
+        List<String[]> dataLines = new ArrayList<String[]>();
+
+        try {
+            dataLines.add(row);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        this.writer.write("data/sample.csv", dataLines);
     }
 }
