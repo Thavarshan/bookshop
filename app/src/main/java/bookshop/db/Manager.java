@@ -38,7 +38,7 @@ public class Manager {
     String[] tables = { "users.csv", "books.csv" };
 
     /**
-     * All the data loadedinto the application.
+     * All the data loaded into the application.
      *
      * @var HashMap<String, Table>
      */
@@ -82,15 +82,23 @@ public class Manager {
         return this.data.get(name);
     }
 
-    public void insert(String[] row) {
-        List<String[]> dataLines = new ArrayList<String[]>();
+    /**
+     * Insert a new record into the data base.
+     *
+     * @return void
+     */
+    public void insert(String table, String[] row) {
+        getTable(table).addData(row);
+    }
 
-        try {
-            dataLines.add(row);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        this.writer.write("data/sample.csv", dataLines);
+    /**
+     * Re-write the modified data from memory to file.
+     *
+     * @return void
+     */
+    public void persist() {
+        dataSet().forEach((table, data) -> {
+            writer.write(this.databasePath + "/" + table + ".csv", data.getData());
+        });
     }
 }

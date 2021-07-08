@@ -1,8 +1,6 @@
 package bookshop.files;
 
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,7 +37,7 @@ public class CSVWriter extends Writer {
         PrintWriter printWriter = null;
 
         try {
-            FileWriter fileWriter = new FileWriter(filePath, true);
+            FileWriter fileWriter = new FileWriter(filePath);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             printWriter = new PrintWriter(bufferedWriter);
         } catch (IOException e) {

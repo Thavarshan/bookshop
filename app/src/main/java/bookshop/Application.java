@@ -1,13 +1,7 @@
 package bookshop;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import bookshop.auth.Authenticator;
-import bookshop.auth.Hasher;
 import bookshop.db.Manager;
-import bookshop.files.CSVWriter;
-import bookshop.files.Writer;
 import bookshop.ui.GUI;
 
 /**
@@ -45,6 +39,8 @@ public class Application {
         try {
             build();
         } catch (Exception e) {
+            terminate();
+
             return false;
         }
 
@@ -57,8 +53,6 @@ public class Application {
      * @return Application
      */
     public Application build() {
-        Hasher.generateSalt();
-
         this.db.loadData();
 
         this.auth.setUsers(this.db.getTable("users"));
@@ -68,23 +62,13 @@ public class Application {
         return this;
     }
 
-    public void writeToFile() {
-        this.db.insert(new String[] { "loyd@may.com", "Boom", "staff" });
-    }
-
     /**
-     * Authenticate the current user.
+     * Terminate the application.
      *
      * @return void
      */
-    public void authenticate() {
-        String[] credentials = { "tjthavarshan@gmail.com", "password123" };
-
-        if (this.auth.attempt(credentials)) {
-            System.out.println("You are logged in.");
-        } else {
-            System.out.println("Login failed.");
-        }
+    public void terminate() {
+        this.db.persist();
     }
 
     /**
@@ -97,8 +81,6 @@ public class Application {
 
         app.start();
 
-        app.authenticate();
-
-        app.writeToFile();
+        app.terminate();
     }
 }

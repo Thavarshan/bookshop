@@ -62,4 +62,24 @@ public class User extends Model {
         password = attributes[1];
         role = attributes[2];
     }
+
+    /**
+     * Check if this user has the given email.
+     *
+     * @return boolean
+     */
+    public boolean hasEmail(String email) {
+        return this.email() == email;
+    }
+
+    /**
+     * Check if this user has permission.
+     *
+     * @param String task
+     *
+     * @return boolean
+     */
+    public boolean hasRole(String role) {
+        return this.role == role;
+    }
 }

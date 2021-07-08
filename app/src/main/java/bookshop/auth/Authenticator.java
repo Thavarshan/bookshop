@@ -12,6 +12,40 @@ public class Authenticator {
     HashMap<String, User> users = new HashMap<String, User>();
 
     /**
+     * The currently authenticated user's email.
+     *
+     * @var String
+     */
+    String authenticated = null;
+
+    /**
+     * Create new instance of Authenticator.
+     *
+     * @return void
+     */
+    public void Authenticator() {
+        Hasher.generateSalt();
+    }
+
+    /**
+     * Get the email address of the user that is currently authenticated.
+     *
+     * @return String
+     */
+    public String authenticatedEmail() {
+        return this.authenticated;
+    }
+
+    /**
+     * Get the instance of the currently authenticated user.
+     *
+     * @return User
+     */
+    public User user() {
+        return this.users.get(authenticatedEmail());
+    }
+
+    /**
      * Set the list of authenticatable users.
      *
      * @return void
@@ -100,7 +134,13 @@ public class Authenticator {
         try {
             String password = getPassword(email);
 
-            return verifyPassword(password, credentials[1]);
+            if (!verifyPassword(password, credentials[1])) {
+                return false;
+            }
+
+            this.authenticated = email;
+
+            return true;
         } catch (EmailNotFoundException e) {
             return false;
         }
