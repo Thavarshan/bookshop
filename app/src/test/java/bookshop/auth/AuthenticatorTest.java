@@ -24,7 +24,7 @@ public class AuthenticatorTest {
         users.addData(this.data);
 
         Authenticator auth = new Authenticator();
-        auth.setUsers(users);
+        auth.setUsers(users.getData());
 
         assertTrue(auth.getUsers().containsKey("tjthavarshan@gmail.com"));
     }

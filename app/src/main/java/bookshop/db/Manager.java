@@ -100,5 +100,7 @@ public class Manager {
         dataSet().forEach((table, data) -> {
             writer.write(this.databasePath + "/" + table + ".csv", data.getData());
         });
+
+        System.out.println("System terminated");
     }
 }

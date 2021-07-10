@@ -1,8 +1,9 @@
 package bookshop;
 
 import bookshop.auth.Authenticator;
+import bookshop.auth.Hasher;
 import bookshop.db.Manager;
-import bookshop.ui.GUI;
+import bookshop.ui.Builder;
 
 /**
  * The main application class.
@@ -14,21 +15,21 @@ public class Application {
      *
      * @var Manager
      */
-    Manager db = new Manager();
+    public Manager db = new Manager();
 
     /**
      * The authenticator instance.
      *
      * @var Authenticator
      */
-    Authenticator auth = new Authenticator();
+    public Authenticator auth = new Authenticator();
 
     /**
-     * The application GUI instance.
+     * The application database manager instance.
      *
-     * @var GUI
+     * @var Builder
      */
-    GUI gui = new GUI();
+    public Builder ui = new Builder();
 
     /**
      * Start the application.
@@ -36,6 +37,8 @@ public class Application {
      * @return boolean
      */
     public boolean start() {
+        Hasher.generateSalt();
+
         try {
             build();
         } catch (Exception e) {
@@ -55,9 +58,10 @@ public class Application {
     public Application build() {
         this.db.loadData();
 
-        this.auth.setUsers(this.db.getTable("users"));
+        this.auth.setUsers(this.db.getTable("users").getData());
 
-        // gui.build();
+        ui.setApplication(this);
+        ui.build();
 
         return this;
     }
@@ -80,7 +84,5 @@ public class Application {
         Application app = new Application();
 
         app.start();
-
-        app.terminate();
     }
 }

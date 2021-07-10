@@ -1,48 +1,89 @@
 package bookshop.ui;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import bookshop.Application;
+import bookshop.db.Manager;
 
-public class GUI {
+public abstract class GUI {
 
-    public void build() {
-        JFrame frame = new JFrame("Bookshop");
-        frame.setSize(350, 400);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    /**
+     * The application database instance.
+     *
+     * @var Manager
+     */
+    Application app = null;
 
-        JPanel panel = new JPanel();
-        frame.add(panel);
-        placeComponents(panel);
+    /**
+     * The main UI frame.
+     *
+     * @var JFrame
+     */
+    JFrame frame = null;
 
-        frame.setVisible(true);
+    /**
+     * Set the default application instance.
+     *
+     * @param Appliation app
+     *
+     * @return void
+     */
+    public void setApplication(Application app) {
+        this.app = app;
     }
 
-    protected static void placeComponents(JPanel panel) {
-        panel.setLayout(null);
+    /**
+     * Build the UI.
+     *
+     * @return void
+     */
+    public abstract void build();
 
-        JLabel emailLabel = new JLabel("Email");
-        emailLabel.setBounds(10, 20, 80, 25);
-        panel.add(emailLabel);
+    /**
+     * Get the application database manager instance.
+     *
+     * @return Manager
+     */
+    public Manager db() {
+        return this.app.db;
+    }
 
-        JTextField emailText = new JTextField(20);
-        emailText.setBounds(100, 20, 165, 25);
-        panel.add(emailText);
+    /**
+     * The default close operation on GUIs.
+     *
+     * @return int
+     */
+    public int defaultCloseOperation() {
+        this.app.terminate();
 
-        JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(10, 50, 80, 25);
-        panel.add(passwordLabel);
+        return JFrame.EXIT_ON_CLOSE;
+    }
 
-        JPasswordField passwordText = new JPasswordField(20);
-        passwordText.setBounds(100, 50, 165, 25);
-        panel.add(passwordText);
+    /**
+     * Get the main UI frame of the current UI.
+     *
+     * @return JFrame
+     */
+    public JFrame getFrame() {
+        return this.frame;
+    }
 
-        // Creating login button
-        JButton loginButton = new JButton("login");
-        loginButton.setBounds(10, 80, 80, 25);
-        panel.add(loginButton);
+    /**
+     * Set the current UI frame to given visibility.
+     *
+     * @param boolean visible
+     *
+     * @return void
+     */
+    public void setJFrameVisible(boolean visible) {
+        this.frame.setVisible(visible);
+    }
+
+    /**
+     * Dispose of this UI frame.
+     *
+     * @return void
+     */
+    public void dispose() {
+        this.frame.dispose();
     }
 }

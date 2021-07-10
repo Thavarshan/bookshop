@@ -1,5 +1,6 @@
 package bookshop.auth;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import bookshop.db.Table;
 import bookshop.db.models.User;
@@ -17,15 +18,6 @@ public class Authenticator {
      * @var String
      */
     String authenticated = null;
-
-    /**
-     * Create new instance of Authenticator.
-     *
-     * @return void
-     */
-    public void Authenticator() {
-        Hasher.generateSalt();
-    }
 
     /**
      * Get the email address of the user that is currently authenticated.
@@ -50,8 +42,8 @@ public class Authenticator {
      *
      * @return void
      */
-    public void setUsers(Table users) {
-        for (String[] row : users.getData()) {
+    public void setUsers(ArrayList<String[]> users) {
+        for (String[] row : users) {
             User user = new User();
             user.setAttributes(row);
 
