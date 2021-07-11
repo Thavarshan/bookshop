@@ -14,7 +14,7 @@ public class Book extends Model {
      *
      * @param String
      */
-    protected String isbn;
+    protected String author;
 
     /**
      * The price of the book in integer format.
@@ -24,11 +24,18 @@ public class Book extends Model {
     protected Integer price;
 
     /**
-     * The number of units available.
+     * The category this book belongs to.
      *
      * @param String
      */
-    protected Integer stock = 0;
+    protected String category;
+
+    /**
+     * The published of this book.
+     *
+     * @param String
+     */
+    protected String publisher;
 
     /**
      * Set the user attributes.
@@ -39,8 +46,9 @@ public class Book extends Model {
      */
     public void setAttributes(String[] attributes) {
         title = attributes[0];
-        isbn = attributes[1];
-        price = Integer.parseInt(attributes[2]);
-        stock += Integer.parseInt(attributes[3]);
+        author = attributes[1];
+        category = attributes[1];
+        price = Integer.parseInt(attributes[3]);
+        publisher = attributes[1];
     }
 }

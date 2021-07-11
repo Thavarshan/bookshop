@@ -3,7 +3,7 @@ package bookshop.ui;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Login extends GUI implements ActionListener, PlacesComponents {
+public class Login extends GUI implements ActionListener, HasComponents {
 
     /**
      * The email text field.

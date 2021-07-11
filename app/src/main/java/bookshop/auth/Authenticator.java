@@ -2,7 +2,6 @@ package bookshop.auth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import bookshop.db.Table;
 import bookshop.db.models.User;
 
 public class Authenticator {
@@ -44,6 +43,10 @@ public class Authenticator {
      */
     public void setUsers(ArrayList<String[]> users) {
         for (String[] row : users) {
+            if (row.length < 1) {
+                continue;
+            }
+
             User user = new User();
             user.setAttributes(row);
 

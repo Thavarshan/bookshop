@@ -35,7 +35,7 @@ public class Manager {
      *
      * @var String[]
      */
-    String[] tables = { "users.csv", "books.csv" };
+    String[] tables = { "books.csv", "users.csv" };
 
     /**
      * All the data loaded into the application.
@@ -56,9 +56,13 @@ public class Manager {
             String name = file.replace(".csv", "");
             table.setName(name);
 
-            for (String[] row : reader.read(this.databasePath + "/" + file)) {
+            ArrayList<String[]> rows = reader.read(this.databasePath + "/" + file);
+
+            for (String[] row : rows) {
                 table.addData(row);
             }
+
+            rows.clear();
 
             this.data.put(name, table);
         }

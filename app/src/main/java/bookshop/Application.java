@@ -42,7 +42,8 @@ public class Application {
         try {
             build();
         } catch (Exception e) {
-            terminate();
+            e.printStackTrace();
+            // System.out.print(e.getMessage());
 
             return false;
         }

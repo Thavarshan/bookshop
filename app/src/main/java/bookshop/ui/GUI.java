@@ -53,8 +53,6 @@ public abstract class GUI {
      * @return int
      */
     public int defaultCloseOperation() {
-        this.app.terminate();
-
         return JFrame.EXIT_ON_CLOSE;
     }
 

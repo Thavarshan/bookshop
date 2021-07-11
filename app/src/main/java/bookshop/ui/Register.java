@@ -5,7 +5,7 @@ import javax.swing.*;
 
 import bookshop.auth.Hasher;
 
-public class Register extends GUI implements ActionListener, PlacesComponents {
+public class Register extends GUI implements ActionListener, HasComponents {
 
     /**
      * The email text field.
