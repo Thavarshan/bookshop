@@ -28,4 +28,6 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: ./gradlew build
+      uses: GabrielBB/xvfb-action@v1
+      with:
+        run: ./gradlew build
