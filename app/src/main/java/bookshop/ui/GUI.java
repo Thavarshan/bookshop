@@ -17,35 +17,35 @@ public class GUI extends JFrame {
      *
      * @var Manager
      */
-    Application app = null;
+    protected Application app = null;
 
     /**
      * The default view that should be displayed when app is first run.
      *
      * @var JPanel
      */
-    JPanel defaultPanel = null;
+    protected JPanel defaultPanel = null;
 
     /**
      * The login view.
      *
      * @var JPanel
      */
-    JPanel loginPanel = new JPanel();
+    protected JPanel loginPanel = new JPanel();
 
     /**
      * The books listing view.
      *
      * @var JPanel
      */
-    JPanel booksPanel = new JPanel();
+    protected JPanel booksPanel = new JPanel();
 
     /**
      * The add new user view.
      *
      * @var JPanel
      */
-    JPanel userPanel = new JPanel();
+    protected JPanel userPanel = new JPanel();
 
     /**
      * Set the default application instance.
@@ -56,6 +56,17 @@ public class GUI extends JFrame {
      */
     public void setApplication(Application app) {
         this.app = app;
+    }
+
+    /**
+     * Get the default application instance.
+     *
+     * @param Appliation app
+     *
+     * @return Application
+     */
+    public Application getApplication() {
+        return this.app;
     }
 
     /**

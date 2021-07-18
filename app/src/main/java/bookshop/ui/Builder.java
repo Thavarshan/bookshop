@@ -12,25 +12,32 @@ public class Builder {
     protected Application app = null;
 
     /**
-     * Set the default application instance.
+     * Create a new UI builder instance.
      *
-     * @param Application app
+     * @param Application
      *
      * @return void
      */
-    public void setApplication(Application app) {
+    public Builder(Application app) {
         this.app = app;
+    }
+
+    /**
+     * Get the application instance.
+     *
+     * @return Application
+     */
+    public Application getApplication() {
+        return this.app;
     }
 
     /**
      * Build the main application insterface.
      *
-     * @return void
+     * @return GUI
      */
-    public void build() {
-        GUI ui = new GUI();
-
-        this.make(ui);
+    public GUI build() {
+        return this.make(new GUI());
     }
 
     /**
@@ -38,13 +45,13 @@ public class Builder {
      *
      * @param GUI ui
      *
-     * @return void
+     * @return GUI
      */
-    public void make(GUI ui) {
+    public GUI make(GUI ui) {
         ui.setApplication(this.app);
-
         ui.setDefaultPanel(ui.loginPanel());
-
         ui.build();
+
+        return ui;
     }
 }

@@ -29,7 +29,7 @@ public class Application {
      *
      * @var Builder
      */
-    public Builder ui = new Builder();
+    public Builder ui = new Builder(this);
 
     /**
      * Start the application.
@@ -40,10 +40,9 @@ public class Application {
         Hasher.generateSalt();
 
         try {
-            build();
+            this.build();
         } catch (Exception e) {
-            e.printStackTrace();
-            // System.out.print(e.getMessage());
+            System.out.print(e.getMessage());
 
             return false;
         }
@@ -61,7 +60,6 @@ public class Application {
 
         this.auth.setUsers(this.db.getTable("users").getData());
 
-        ui.setApplication(this);
         ui.build();
 
         return this;

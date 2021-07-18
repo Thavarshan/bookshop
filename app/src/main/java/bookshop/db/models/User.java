@@ -58,6 +58,8 @@ public class User extends Model {
      * @return void
      */
     public void setAttributes(String[] attributes) {
+        this.attributes = attributes;
+
         this.email = attributes[0];
         this.password = attributes[1];
         this.role = attributes[2];

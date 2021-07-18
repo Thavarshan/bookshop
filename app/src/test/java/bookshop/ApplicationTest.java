@@ -6,7 +6,9 @@ import static org.junit.Assert.*;
 public class ApplicationTest {
 
     @Test
-    public void buildGivesInstanceOf() {
-        assertTrue(true);
+    public void itCanBuildApplication() {
+        Application app = new Application();
+
+        assertTrue(app.build() instanceof Application);
     }
 }

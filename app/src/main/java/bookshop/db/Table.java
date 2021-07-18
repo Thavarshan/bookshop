@@ -9,22 +9,33 @@ public class Table {
      *
      * @var String
      */
-    String name;
+    protected String name;
 
     /**
      * The rows of data.
      *
      * @var ArrayList<String>
      */
-    ArrayList<String[]> data = new ArrayList<String[]>();
+    protected ArrayList<String[]> data = new ArrayList<String[]>();
 
     /**
      * Set the name of the table.
+     *
+     * @param String name
      *
      * @return void
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Set the name of the table.
+     *
+     * @return String
+     */
+    public String getName() {
+        return this.name;
     }
 
     /**

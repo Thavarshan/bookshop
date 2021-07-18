@@ -45,10 +45,12 @@ public class Book extends Model {
      * @return void
      */
     public void setAttributes(String[] attributes) {
-        title = attributes[0];
-        author = attributes[1];
-        category = attributes[1];
-        price = Integer.parseInt(attributes[3]);
-        publisher = attributes[1];
+        this.attributes = attributes;
+
+        this.title = attributes[0];
+        this.author = attributes[1];
+        this.category = attributes[1];
+        this.price = Integer.parseInt(attributes[3]);
+        this.publisher = attributes[1];
     }
 }
