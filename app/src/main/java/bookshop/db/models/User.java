@@ -29,7 +29,7 @@ public class User extends Model {
      * @return String
      */
     public String email() {
-        return email;
+        return this.email;
     }
 
     /**
@@ -38,7 +38,7 @@ public class User extends Model {
      * @return String
      */
     public String role() {
-        return role;
+        return this.role;
     }
 
     /**
@@ -47,7 +47,7 @@ public class User extends Model {
      * @return String
      */
     public String password() {
-        return password;
+        return this.password;
     }
 
     /**
@@ -58,9 +58,9 @@ public class User extends Model {
      * @return void
      */
     public void setAttributes(String[] attributes) {
-        email = attributes[0];
-        password = attributes[1];
-        role = attributes[2];
+        this.email = attributes[0];
+        this.password = attributes[1];
+        this.role = attributes[2];
     }
 
     /**
@@ -69,17 +69,17 @@ public class User extends Model {
      * @return boolean
      */
     public boolean hasEmail(String email) {
-        return this.email() == email;
+        return this.email.equals(email);
     }
 
     /**
      * Check if this user has permission.
      *
-     * @param String task
+     * @param String role
      *
      * @return boolean
      */
     public boolean hasRole(String role) {
-        return this.role == role;
+        return this.role.equals(role);
     }
 }

@@ -28,9 +28,9 @@ public class Builder {
      * @return void
      */
     public void build() {
-        Books books = new Books();
+        GUI ui = new GUI();
 
-        this.make(books);
+        this.make(ui);
     }
 
     /**
@@ -42,6 +42,8 @@ public class Builder {
      */
     public void make(GUI ui) {
         ui.setApplication(this.app);
+
+        ui.setDefaultPanel(ui.loginPanel());
 
         ui.build();
     }

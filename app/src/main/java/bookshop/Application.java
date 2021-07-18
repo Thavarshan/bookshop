@@ -68,6 +68,17 @@ public class Application {
     }
 
     /**
+     * Authenticate the user.
+     *
+     * @param String[] credentials
+     *
+     * @return boolean
+     */
+    public boolean login(String[] credentials) {
+        return this.auth.attempt(credentials);
+    }
+
+    /**
      * Terminate the application.
      *
      * @return void

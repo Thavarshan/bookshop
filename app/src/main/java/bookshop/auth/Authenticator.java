@@ -16,7 +16,7 @@ public class Authenticator {
      *
      * @var String
      */
-    String authenticated = null;
+    String authenticatedEmail = null;
 
     /**
      * Get the email address of the user that is currently authenticated.
@@ -24,7 +24,7 @@ public class Authenticator {
      * @return String
      */
     public String authenticatedEmail() {
-        return this.authenticated;
+        return this.authenticatedEmail;
     }
 
     /**
@@ -133,7 +133,7 @@ public class Authenticator {
                 return false;
             }
 
-            this.authenticated = email;
+            this.authenticatedEmail = email;
 
             return true;
         } catch (EmailNotFoundException e) {
