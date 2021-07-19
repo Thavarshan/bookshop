@@ -128,22 +128,22 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent evt) {
                 String[] credentials = { emailText.getText(), new String(passwordText.getPassword()) };
 
-                if (app.login(credentials)) {
-                    if (app.auth.user().hasRole("staff")) {
-                        setContentPane(booksPanel());
-                    } else {
-                        setContentPane(userPanel());
-                    }
-
-                    invalidate();
-                    validate();
-
-                    return;
-                } else {
+                if (!app.login(credentials)) {
                     message.setText("Login failed.");
 
                     return;
                 }
+
+                if (app.auth.user().hasRole("staff")) {
+                    setContentPane(booksPanel());
+                } else {
+                    setContentPane(userPanel());
+                }
+
+                invalidate();
+                validate();
+
+                return;
             }
         });
         this.loginPanel.add(loginButton);
@@ -172,7 +172,7 @@ public class GUI extends JFrame {
         }
 
         JTable table = new JTable(tableModel);
-        TableRowSorter sorter = new TableRowSorter<>(tableModel);
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(tableModel);
         table.setRowSorter(sorter);
 
         JScrollPane scrollPane = new JScrollPane(table);
