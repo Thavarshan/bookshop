@@ -31,3 +31,9 @@ jobs:
       uses: GabrielBB/xvfb-action@v1
       with:
         run: ./gradlew build
+
+    - name: Archive Build Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: app/build/distributions/app.zip

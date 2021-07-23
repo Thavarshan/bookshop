@@ -48,6 +48,20 @@ public class GUI extends JFrame {
     protected JPanel userPanel = new JPanel();
 
     /**
+     * The add new book view.
+     *
+     * @var JPanel
+     */
+    protected JPanel addBookPanel = new JPanel();
+
+    /**
+     * The books table model.
+     *
+     * @var DefaultTableModel
+     */
+    protected DefaultTableModel booksTableModel = null;
+
+    /**
      * Set the default application instance.
      *
      * @param Appliation app
@@ -164,15 +178,23 @@ public class GUI extends JFrame {
         this.booksPanel.add(searchLable);
         this.booksPanel.add(searchText);
 
+        JButton createButton = new JButton("Add Book");
+        createButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                openAddBooksWindow();
+            }
+        });
+        this.booksPanel.add(createButton);
+
         String[] columnNames = { "Title", "Author", "Category", "Price", "Publisher" };
-        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+        this.booksTableModel = new DefaultTableModel(columnNames, 0);
 
         for (String[] book : this.books()) {
-            tableModel.addRow(book);
+            this.booksTableModel.addRow(book);
         }
 
-        JTable table = new JTable(tableModel);
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(tableModel);
+        JTable table = new JTable(this.booksTableModel);
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(this.booksTableModel);
         table.setRowSorter(sorter);
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -259,6 +281,82 @@ public class GUI extends JFrame {
         this.userPanel.add(message);
 
         return this.userPanel;
+    }
+
+    public void openAddBooksWindow() {
+        JFrame frame = new JFrame("Bookshop | Add New Books");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(this);
+        frame.setSize(300, 240);
+
+        this.addBookPanel.setLayout(null);
+
+        JLabel titleLabel = new JLabel("Title");
+        titleLabel.setBounds(10, 20, 80, 25);
+        this.addBookPanel.add(titleLabel);
+
+        JTextField titleText = new JTextField(20);
+        titleText.setBounds(100, 20, 180, 25);
+        this.addBookPanel.add(titleText);
+
+        JLabel authorLabel = new JLabel("Author");
+        authorLabel.setBounds(10, 50, 80, 25);
+        this.addBookPanel.add(authorLabel);
+
+        JTextField authorText = new JTextField(20);
+        authorText.setBounds(100, 50, 180, 25);
+        this.addBookPanel.add(authorText);
+
+        JLabel categoryLabel = new JLabel("Category");
+        categoryLabel.setBounds(10, 80, 80, 25);
+        this.addBookPanel.add(categoryLabel);
+
+        JTextField categoryText = new JTextField(20);
+        categoryText.setBounds(100, 80, 180, 25);
+        this.addBookPanel.add(categoryText);
+
+        JLabel priceLabel = new JLabel("Price");
+        priceLabel.setBounds(10, 110, 80, 25);
+        this.addBookPanel.add(priceLabel);
+
+        JTextField priceText = new JTextField(20);
+        priceText.setBounds(100, 110, 180, 25);
+        this.addBookPanel.add(priceText);
+
+        JLabel publisherLabel = new JLabel("Publisher");
+        publisherLabel.setBounds(10, 140, 80, 25);
+        this.addBookPanel.add(publisherLabel);
+
+        JTextField publisherText = new JTextField(20);
+        publisherText.setBounds(100, 140, 180, 25);
+        this.addBookPanel.add(publisherText);
+
+        JButton createButton = new JButton("Add Book");
+        createButton.setBounds(10, 170, 120, 25);
+        createButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    String[] details = { titleText.getText(), authorText.getText(), categoryText.getText(),
+                            priceText.getText(), publisherText.getText() };
+                    booksTableModel.addRow(details);
+                    db().insert("books", details);
+                    db().persist();
+
+                    titleText.setText(null);
+                    authorText.setText(null);
+                    categoryText.setText(null);
+                    priceText.setText(null);
+                    publisherText.setText(null);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        });
+        this.addBookPanel.add(createButton);
+
+        frame.add(this.addBookPanel);
+        frame.setVisible(true);
+        frame.setResizable(false);
     }
 
     /**
